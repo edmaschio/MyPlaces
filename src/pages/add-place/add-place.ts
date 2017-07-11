@@ -12,8 +12,8 @@ import { Location} from "../../models/location";
 })
 export class AddPlacePage {
   location: Location = {
-    lat: -21.1995766,
-    lng: -47.8254043
+    lat: -21.0,
+    lng: -47.0
   };
 
   locationIsSet = false;
