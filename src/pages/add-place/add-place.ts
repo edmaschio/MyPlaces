@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController } from 'ionic-angular';
+import { IonicPage, ModalController, ToastController, LoadingController } from 'ionic-angular';
 import { NgForm } from "@angular/forms";
 import { Geolocation } from "@ionic-native/geolocation";
+import { Camera, CameraOptions } from '@ionic-native/camera';
+
 import { SetLocationPage } from "../set-location/set-location";
 import { Location} from "../../models/location";
 
@@ -11,6 +13,7 @@ import { Location} from "../../models/location";
   templateUrl: 'add-place.html',
 })
 export class AddPlacePage {
+
   location: Location = {
     lat: -21.0,
     lng: -47.0
@@ -18,7 +21,11 @@ export class AddPlacePage {
 
   locationIsSet = false;
 
-  constructor(private modalCtrl: ModalController, private geolocation: Geolocation) {}
+  constructor(private modalCtrl: ModalController,
+              private geolocation: Geolocation, 
+              private loadingCtrl: LoadingController, 
+              private toasCtrl: ToastController, 
+              private camera: Camera ) {}
 
   onSubmit(form: NgForm) {
     console.log(form.value);
@@ -39,9 +46,14 @@ export class AddPlacePage {
   }
 
   onLocate() {
+    const loader = this.loadingCtrl.create({
+      content: 'Buscando sua localização...'
+    });
+    loader.present();
     this.geolocation.getCurrentPosition()
       .then(
         location => {
+          loader.dismiss();
           this.location.lat = location.coords.latitude;
           this.location.lng = location.coords.longitude;
           this.locationIsSet = true;
@@ -49,9 +61,29 @@ export class AddPlacePage {
       )
       .catch(
         error => {
-          console.log(error);
+          loader.dismiss();
+          const toast = this.toasCtrl.create({
+            message: 'Não foi possível obter sua localização. Por favor selecione manualmente!',
+            duration: 2500
+          });
+          toast.present();
         }
       );
+  }
+
+  onTakePhoto() {
+    const options: CameraOptions = {
+      quality: 100, 
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+       console.log(err);
+    });
   }
 
 }
