@@ -25,7 +25,7 @@ import { SetLocationPage } from "../pages/set-location/set-location";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBM826GrUEqdwe1iDsYqtT5aUQfebwh9eM'
+      apiKey: ''
     })
   ],
   bootstrap: [IonicApp],
