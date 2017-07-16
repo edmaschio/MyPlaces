@@ -5,7 +5,6 @@
 *.sw[mnpcod]
 *.log
 *.dev.ts
-*.env
 *.tmp
 *.tmp.*
 log.txt
@@ -34,3 +33,4 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+src/config/environment.dev.ts

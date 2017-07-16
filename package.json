@@ -66,5 +66,8 @@
         "platforms": [
             "android"
         ]
+    },
+    "config" : {
+        "ionic-rollup" : "./config/rollup.config.js"
     }
 }
