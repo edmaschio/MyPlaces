@@ -58,11 +58,11 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <img [src]="">
+        <img [src]="imageUrl">
       </ion-row>
       <ion-row>
         <ion-col>
-          <button ion-button block color="secondary" block type="submit" [disabled]="!f.valid || !locationIsSet">
+          <button ion-button block color="secondary" block type="submit" [disabled]="!f.valid || !locationIsSet || imageUrl == ''">
             Adcione esse lugar
           </button>
         </ion-col>

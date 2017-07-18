@@ -67,7 +67,7 @@
             "android"
         ]
     },
-    "config" : {
-        "ionic-rollup" : "./config/rollup.config.js"
+    "config": {
+        "ionic-rollup": "./config/rollup.config.js"
     }
 }

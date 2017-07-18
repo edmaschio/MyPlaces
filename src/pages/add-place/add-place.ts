@@ -20,6 +20,7 @@ export class AddPlacePage {
   };
 
   locationIsSet = false;
+  imageUrl = '';
 
   constructor(private modalCtrl: ModalController,
               private geolocation: Geolocation, 
@@ -79,9 +80,11 @@ export class AddPlacePage {
       correctOrientation: true
     }
 
-    this.camera.getPicture(options).then(imageData => {
+    this.camera.getPicture(options)
+    .then(imageData => {
+      this.imageUrl = imageData;
       console.log(imageData);
-      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      //let base64Image = 'data:image/jpeg;base64,' + imageData;
     }).catch(
       err => {
         console.log(err);

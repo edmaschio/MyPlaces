@@ -12,4 +12,7 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-card *ngFor="let place of places" (click)="onOpenPlace(place)">
+    
+  </ion-card>
 </ion-content>
