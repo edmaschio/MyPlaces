@@ -57,7 +57,7 @@
           </button>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row *ngIf="imageUrl != ''">
         <img [src]="imageUrl">
       </ion-row>
       <ion-row>

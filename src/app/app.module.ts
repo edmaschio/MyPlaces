@@ -13,6 +13,7 @@ import { HomePage } from '../pages/home/home';
 import { AddPlacePage } from "../pages/add-place/add-place";
 import { PlacePage } from "../pages/place/place";
 import { SetLocationPage } from "../pages/set-location/set-location";
+import { PlacesService } from "../services/places";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { SetLocationPage } from "../pages/set-location/set-location";
     SplashScreen,
     Geolocation,
     Camera,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PlacesService
   ]
 })
 export class AppModule {}

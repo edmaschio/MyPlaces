@@ -5,7 +5,8 @@ import { Geolocation } from "@ionic-native/geolocation";
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
 import { SetLocationPage } from "../set-location/set-location";
-import { Location} from "../../models/location";
+import { Location } from "../../models/location";
+import { PlacesService } from "../../services/places";
 
 @IonicPage()
 @Component({
@@ -23,17 +24,27 @@ export class AddPlacePage {
   imageUrl = '';
 
   constructor(private modalCtrl: ModalController,
-              private geolocation: Geolocation, 
-              private loadingCtrl: LoadingController, 
-              private toasCtrl: ToastController, 
-              private camera: Camera ) {}
+    private geolocation: Geolocation,
+    private loadingCtrl: LoadingController,
+    private toasCtrl: ToastController,
+    private camera: Camera,
+    private placesService: PlacesService) { }
 
   onSubmit(form: NgForm) {
+    this.placesService.addPlace(form.value.title, form.value.description, this.location, this.imageUrl);
+    form.reset;
+    this.location = {
+      lat: -21.0,
+      lng: -47.0
+    };
+    this.imageUrl = '';
+    this.locationIsSet = false;
+
     console.log(form.value);
   }
 
   onOpenMap() {
-    const modal = this.modalCtrl.create(SetLocationPage, {location: this.location, isSet: this.locationIsSet});
+    const modal = this.modalCtrl.create(SetLocationPage, { location: this.location, isSet: this.locationIsSet });
     modal.present();
     modal.onDidDismiss(
       data => {
@@ -53,43 +64,43 @@ export class AddPlacePage {
     loader.present();
     this.geolocation.getCurrentPosition()
       .then(
-        location => {
-          loader.dismiss();
-          this.location.lat = location.coords.latitude;
-          this.location.lng = location.coords.longitude;
-          this.locationIsSet = true;
-        }
+      location => {
+        loader.dismiss();
+        this.location.lat = location.coords.latitude;
+        this.location.lng = location.coords.longitude;
+        this.locationIsSet = true;
+      }
       )
       .catch(
-        error => {
-          loader.dismiss();
-          const toast = this.toasCtrl.create({
-            message: 'Não foi possível obter sua localização. Por favor selecione manualmente!',
-            duration: 2500
-          });
-          toast.present();
-        }
+      error => {
+        loader.dismiss();
+        const toast = this.toasCtrl.create({
+          message: 'Não foi possível obter sua localização. Por favor selecione manualmente!',
+          duration: 2500
+        });
+        toast.present();
+      }
       );
   }
 
   onTakePhoto() {
     const options: CameraOptions = {
-      quality: 100, 
+      quality: 100,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true
     }
 
     this.camera.getPicture(options)
-    .then(imageData => {
-      this.imageUrl = imageData;
-      console.log(imageData);
-      //let base64Image = 'data:image/jpeg;base64,' + imageData;
-    }).catch(
+      .then(imageData => {
+        this.imageUrl = imageData;
+        console.log(imageData);
+        //let base64Image = 'data:image/jpeg;base64,' + imageData;
+      }).catch(
       err => {
         console.log(err);
       }
-    );
+      );
   }
 
 }
