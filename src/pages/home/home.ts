@@ -21,8 +21,8 @@ export class HomePage {
     this.places = this.placesService.loadPlaces();
   }
 
-  onOpenPlace(place: Place) {
-    const modal = this.modalCtrl.create(PlacePage);
+  onOpenPlace(place: Place, index: number) {
+    const modal = this.modalCtrl.create(PlacePage, {place: place, index: index});
     modal.present();
   }
 
