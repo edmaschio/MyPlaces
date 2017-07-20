@@ -30,13 +30,13 @@
           <agm-marker 
             [latitude]="place.location.lat"
             [longitude]="place.location.lng"
-            *ngIf="marker"></agm-marker>
+            ></agm-marker>
         </agm-map>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <button ion-button block (click)="onLeave()">Permanecer</button>
+        <button ion-button block (click)="onLeave()">Manter</button>
       </ion-col>
       <ion-col>
         <button ion-button block color="danger" (click)="onDelete()">Excluir</button>
