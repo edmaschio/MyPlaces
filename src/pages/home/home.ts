@@ -12,17 +12,15 @@ import { PlacePage } from "../place/place";
 export class HomePage {
   addPlacePage = AddPlacePage;
   places: Place[] = [];
-  
-   constructor(private modalCtrl: ModalController,  private placesService: PlacesService) {
 
-  }
+  constructor(private modalCtrl: ModalController, private placesService: PlacesService) {}
 
   ionViewWillEnter() {
     this.places = this.placesService.loadPlaces();
   }
 
   onOpenPlace(place: Place, index: number) {
-    const modal = this.modalCtrl.create(PlacePage, {place: place, index: index});
+    const modal = this.modalCtrl.create(PlacePage, { place: place, index: index });
     modal.present();
   }
 

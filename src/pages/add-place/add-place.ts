@@ -3,6 +3,7 @@ import { IonicPage, ModalController, ToastController, LoadingController } from '
 import { NgForm } from "@angular/forms";
 import { Geolocation } from "@ionic-native/geolocation";
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { File, Entry, FileError } from '@ionic-native/file';
 
 import { SetLocationPage } from "../set-location/set-location";
 import { Location } from "../../models/location";
@@ -28,7 +29,8 @@ export class AddPlacePage {
     private loadingCtrl: LoadingController,
     private toasCtrl: ToastController,
     private camera: Camera,
-    private placesService: PlacesService) { }
+    private placesService: PlacesService,
+    private file: File) { }
 
   onSubmit(form: NgForm) {
     this.placesService.addPlace(form.value.title, form.value.description, this.location, this.imageUrl);
@@ -93,12 +95,37 @@ export class AddPlacePage {
 
     this.camera.getPicture(options)
       .then(imageData => {
+        const currentName = imageData.replace(/^.*[\\\/]/, '');
+        const path = imageData.replace(/[^\/]*$/, '');
+        this.file.moveFile(path, currentName, this.file.dataDirectory, currentName)
+          .then(
+            (data: Entry) => {
+              this.imageUrl = data.nativeURL;
+              this.camera.cleanup();
+              // this.file.removeFile(path, currentName);
+            }
+          )
+          .catch(
+          (err: FileError) => {
+            this.imageUrl = '';
+            const toast = this.toasCtrl.create({
+              message: 'Não foi possível salvar a imagem. Por favor, tente novamente',
+              duration: 2500
+            });
+            toast.present();
+            this.camera.cleanup();
+          }
+          );
         this.imageUrl = imageData;
-        console.log(imageData);
-        //let base64Image = 'data:image/jpeg;base64,' + imageData;
       }).catch(
       err => {
-        console.log(err);
+        this.imageUrl = '';
+        const toast = this.toasCtrl.create({
+          message: 'Não foi possível obter a imagem. Por favor, tente novamente',
+          duration: 2500
+        });
+        toast.present();
+        this.camera.cleanup();
       }
       );
   }
