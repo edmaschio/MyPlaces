@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AgmCoreModule } from '@agm/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera } from '@ionic-native/camera';
+import { File } from '@ionic-native/file';
 import { ENV } from '../config/environment.dev'
 
 import { MyApp } from './app.component';
@@ -14,7 +15,7 @@ import { AddPlacePage } from "../pages/add-place/add-place";
 import { PlacePage } from "../pages/place/place";
 import { SetLocationPage } from "../pages/set-location/set-location";
 import { PlacesService } from "../services/places";
-import { Storage } from "@ionic/storage";
+import { Storage, IonicStorageModule } from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { Storage } from "@ionic/storage";
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
       apiKey: ENV.GMAPS.apiKey
-    })
+    }),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,9 +46,9 @@ import { Storage } from "@ionic/storage";
     SplashScreen,
     Geolocation,
     Camera,
+    File,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     PlacesService, 
-    Storage
   ]
 })
 export class AppModule {}
