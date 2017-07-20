@@ -14,6 +14,7 @@ import { AddPlacePage } from "../pages/add-place/add-place";
 import { PlacePage } from "../pages/place/place";
 import { SetLocationPage } from "../pages/set-location/set-location";
 import { PlacesService } from "../services/places";
+import { Storage } from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { PlacesService } from "../services/places";
     Geolocation,
     Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    PlacesService
+    PlacesService, 
+    Storage
   ]
 })
 export class AppModule {}
