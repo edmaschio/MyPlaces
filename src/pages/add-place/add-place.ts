@@ -34,15 +34,13 @@ export class AddPlacePage {
 
   onSubmit(form: NgForm) {
     this.placesService.addPlace(form.value.title, form.value.description, this.location, this.imageUrl);
-    form.reset;
     this.location = {
       lat: -21.0,
       lng: -47.0
     };
     this.imageUrl = '';
     this.locationIsSet = false;
-
-    console.log(form.value);
+    form.reset;
   }
 
   onOpenMap() {
@@ -97,7 +95,8 @@ export class AddPlacePage {
       .then(imageData => {
         const currentName = imageData.replace(/^.*[\\\/]/, '');
         const path = imageData.replace(/[^\/]*$/, '');
-        this.file.moveFile(path, currentName, this.file.dataDirectory, currentName)
+        const newFileName = new Date().getUTCMilliseconds() + '.jpg';
+        this.file.moveFile(path, currentName, this.file.dataDirectory, newFileName)
           .then(
             (data: Entry) => {
               this.imageUrl = data.nativeURL;

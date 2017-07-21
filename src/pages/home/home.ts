@@ -16,7 +16,10 @@ export class HomePage implements OnInit {
   constructor(private modalCtrl: ModalController, private placesService: PlacesService) {}
 
   ngOnInit(): void {
-    this.placesService.fetchPlaces();
+    this.placesService.fetchPlaces()
+      .then(
+        (places: Place[]) => this.places = places
+      );
   }
 
 
