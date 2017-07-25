@@ -27,7 +27,11 @@ import { IonicStorageModule } from "@ionic/storage";
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: 'Voltar',
+      iconMode: 'ios',
+      pageTransition: 'ios-transition'
+    }),
     AgmCoreModule.forRoot({
       apiKey: ENV.GMAPS.apiKey
     }),
